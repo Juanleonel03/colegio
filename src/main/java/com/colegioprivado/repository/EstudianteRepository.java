@@ -11,12 +11,12 @@ import com.colegioprivado.models.EstudianteModel;
 @Repository
 public interface EstudianteRepository extends JpaRepository<EstudianteModel, Long> {
 
-    @Query(value = "SELECT * FROM estudiante WHERE nombre = :nombre", nativeQuery = true)
+    @Query(value = "SELECT * FROM Estudiantes WHERE nombre = :nombre", nativeQuery = true)
     List<EstudianteModel> findByNombre(@Param("nombre") String nombre);
 
-    @Query(value = "SELECT * FROM estudiante WHERE cedula = :cedula", nativeQuery = true)
-    List<EstudianteModel> findByCedula(@Param("nombre") String nombre);
+    @Query(value = "SELECT * FROM Estudiantes WHERE cedula = :cedula", nativeQuery = true)
+    List<EstudianteModel> findByCedula(@Param("cedula") String cedula);
 
-    @Query(value = "SELECT * FROM estudiante WHERE correo = :correo", nativeQuery = true)
-    List<EstudianteModel> findByCorreo(@Param("nombre") String nombre);
+    @Query(value = "SELECT * FROM Estudiantes WHERE correo = :correo", nativeQuery = true)
+    List<EstudianteModel> findByCorreo(@Param("correo") String correo);
 }

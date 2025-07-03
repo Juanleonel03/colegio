@@ -36,12 +36,25 @@ public class EstudianteController {
         return service.guardar(est);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<EstudianteModel> buscar(@PathVariable Long id) {
         return service.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/cedula/{cedula}")
+    public ResponseEntity<List<EstudianteModel>> buscarCedula(@PathVariable String cedula) {
+        List<EstudianteModel> estudiante = service.buscarPorCedula(cedula);
+        return !estudiante.isEmpty() ? ResponseEntity.ok(estudiante) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<EstudianteModel>> buscarNombre(@PathVariable String nombre){
+        List<EstudianteModel> nombreEstudiante = service.buscarPorNombre(nombre);
+        return !nombreEstudiante.isEmpty() ? ResponseEntity.ok(nombreEstudiante) : ResponseEntity.notFound().build();
+    }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<EstudianteModel> actualizar(
