@@ -2,12 +2,17 @@ package com.colegioprivado.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Profesor")
 public class ProfesorModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profesor_seq")
+    @SequenceGenerator(name = "profesor_seq", sequenceName = "SEQ_PROFESOR", allocationSize = 1)
     private Long id_profesor;
     private String nombre;
     private String especialidad;
