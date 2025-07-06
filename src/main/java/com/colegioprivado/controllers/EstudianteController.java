@@ -21,7 +21,7 @@ import com.colegioprivado.services.EstudianteService;
 
 @RestController
 @RequestMapping("/api/estudiantes")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class EstudianteController {
     @Autowired
     private EstudianteService service;
@@ -55,8 +55,13 @@ public class EstudianteController {
         return !nombreEstudiante.isEmpty() ? ResponseEntity.ok(nombreEstudiante) : ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/correo/{correo}")
+    public ResponseEntity<List<EstudianteModel>> buscarPorCorreo(@PathVariable String correo){
+        List<EstudianteModel> correoEstudiante = service.buscarPorCorreo(correo);
+        return !correoEstudiante.isEmpty() ? ResponseEntity.ok(correoEstudiante) : ResponseEntity.notFound().build();
+    }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/id/{id}")
     public ResponseEntity<EstudianteModel> actualizar(
             @PathVariable Long id,
             @RequestBody Map<String, Object> camposActualizados) {

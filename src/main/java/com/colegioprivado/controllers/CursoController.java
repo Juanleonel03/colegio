@@ -12,7 +12,7 @@ import com.colegioprivado.services.CursoService;
 
 @RestController
 @RequestMapping("/api/cursos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class CursoController {
     @Autowired
     private CursoService service;

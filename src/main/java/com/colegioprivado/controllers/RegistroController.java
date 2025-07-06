@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.colegioprivado.dto.RegistroDTO;
+import com.colegioprivado.models.AdministradorModel;
 import com.colegioprivado.models.EstudianteModel;
 import com.colegioprivado.models.PerfilUsuarioModel;
 import com.colegioprivado.models.ProfesorModel;
 import com.colegioprivado.models.RolModel;
 import com.colegioprivado.models.UsuarioSistemaModel;
+import com.colegioprivado.repository.AdminRepository;
 import com.colegioprivado.repository.EstudianteRepository;
 import com.colegioprivado.repository.PerfilUsuarioRepository;
 import com.colegioprivado.repository.ProfesorRepository;
@@ -24,7 +26,7 @@ import com.colegioprivado.repository.UsuarioSistemaRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class RegistroController {
 
     @Autowired
@@ -42,18 +44,18 @@ public class RegistroController {
     @Autowired
     private PerfilUsuarioRepository perfilRepo;
 
+    @Autowired
+    private AdminRepository adminRepo;
+
     @PostMapping("/register")
     public ResponseEntity<?> registrarUsuario(@RequestBody RegistroDTO dto) {
 
-
         String nombreRol = dto.getRol();
-        System.out.println(dto.getRol());
         List<RolModel> roles = rolRepo.findByNombre(nombreRol);
-        System.out.println(roles);
         if (roles.isEmpty()) {
             throw new RuntimeException("Rol no encontrado");
         }
-        RolModel rol = roles.get(0); // usa el primero
+        RolModel rol = roles.get(0);
 
         UsuarioSistemaModel usuario = new UsuarioSistemaModel();
 
@@ -62,7 +64,7 @@ public class RegistroController {
         usuario.setPassword(dto.getPassword());
         usuario.setCorreo(dto.getCorreo());
         usuarioRepo.save(usuario);
-        // Guardar en tabla correspondiente según rol
+
         switch (dto.getRol()) {
             case "Estudiante":
                 EstudianteModel estudiante = new EstudianteModel();
@@ -81,6 +83,12 @@ public class RegistroController {
                 profesorRepo.save(profesor);
                 break;
 
+            case "Administrador":
+                AdministradorModel admin = new AdministradorModel();
+                admin.setNombre(dto.getNombre());
+                admin.setCorreo(dto.getCorreo());
+                adminRepo.save(admin);
+                break;
             default:
                 return ResponseEntity.badRequest().body("Rol no válido");
         }

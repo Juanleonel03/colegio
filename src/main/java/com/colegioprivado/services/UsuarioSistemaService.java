@@ -29,4 +29,8 @@ public class UsuarioSistemaService {
     public void eliminar(Long id) {
         repository.deleteById(id);
     }
+
+    public List<UsuarioSistemaModel> buscarPorCorreo(String correo){
+        return repository.findByCorreo(correo);
+    }
 }

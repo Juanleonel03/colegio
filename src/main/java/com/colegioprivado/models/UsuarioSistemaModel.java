@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "USUARIOSISTEMA")
@@ -18,6 +19,7 @@ public class UsuarioSistemaModel {
 
     @ManyToOne
     @JoinColumn(name = "id_perfil")
+    @JsonIgnoreProperties({"id_usuario"})
     private PerfilUsuarioModel perfil;
 
     @Id

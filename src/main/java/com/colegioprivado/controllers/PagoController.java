@@ -19,7 +19,7 @@ import com.colegioprivado.services.PagoService;
 
 @RestController
 @RequestMapping("/api/pagos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class PagoController {
     @Autowired
     private PagoService service;

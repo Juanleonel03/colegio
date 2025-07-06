@@ -35,11 +35,11 @@ public class EstudianteModel {
     @Column(name = "correo")
     private String correo;
 
-    public Long getIdEstudiante() {
+    public Long getId_estudiante() {
         return id_estudiante;
     }
 
-    public void setIdEstudiante(Long id_estudiante) {
+    public void setId_estudiante(Long id_estudiante) {
         this.id_estudiante = id_estudiante;
     }
 

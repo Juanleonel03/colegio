@@ -29,25 +29,6 @@ public class LoginController {
     @Autowired
     private PerfilUsuarioRepository perfilRepo;
 
-    /*
-     * public ResponseEntity<?> login(@RequestBody LoginModel LoginModel) {
-     * Optional<UsuarioSistemaModel> usuarioOpt =
-     * usuarioRepo.findByUsernameAndPassword(
-     * LoginModel.getUsername(), LoginModel.getPassword()
-     * );
-     * 
-     * if (usuarioOpt.isPresent()) {
-     * UsuarioSistemaModel usuario = usuarioOpt.get();
-     * return ResponseEntity.ok(Map.of(
-     * "token", "fake-jwt-token",
-     * "rol", usuario.getPerfil().getId_rol().getNombre_rol()
-     * ));
-     * } else {
-     * return ResponseEntity.status(HttpStatus.UNAUTHORIZED).
-     * body("Credenciales inválidas 2");
-     * }
-     * }
-     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginModel loginModel) {
         Optional<UsuarioSistemaModel> usuarioOpt = usuarioRepo.findByUsernameAndPassword(
@@ -63,7 +44,9 @@ public class LoginController {
 
                 return ResponseEntity.ok(Map.of(
                         "token", "fake-jwt-token",
-                        "rol", nombreRol));
+                        "rol", nombreRol,
+                        "correo", usuario.getCorreo()
+                        ));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body("El usuario no tiene un perfil asignado.");

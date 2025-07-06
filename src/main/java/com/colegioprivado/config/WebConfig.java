@@ -1,3 +1,4 @@
+package com.colegioprivado.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,13 +11,13 @@ public class WebConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Permitir todos los endpoints
-                        .allowedOrigins("http://localhost:8100") // Origen de tu frontend
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*")
-                        .allowCredentials(true);
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8100")
+                        .allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS")
+                        .allowedHeaders("*");
             }
         };
     }
 }
+
 

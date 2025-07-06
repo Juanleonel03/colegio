@@ -39,7 +39,7 @@ public class EstudianteService {
     }
 
     public List<EstudianteModel> buscarPorCorreo(String correo){
-        return repo.findByNombre(correo);
+        return repo.findByCorreo(correo);
     }
 }
 

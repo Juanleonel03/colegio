@@ -19,7 +19,7 @@ import com.colegioprivado.services.PerfilUsuarioService;
 
 @RestController
 @RequestMapping("/api/perfiles")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class PerfilUsuarioController {
     @Autowired
     private PerfilUsuarioService service;
@@ -49,6 +49,7 @@ public class PerfilUsuarioController {
                     p.setId_rol(nuevo.getId_rol());
                     p.setFecha_creado(nuevo.getFecha_creado());
                     return ResponseEntity.ok(service.guardar(p));
+
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

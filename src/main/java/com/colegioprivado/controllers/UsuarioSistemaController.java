@@ -1,6 +1,8 @@
 package com.colegioprivado.controllers;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.colegioprivado.dto.UsuarioDTO;
 import com.colegioprivado.models.UsuarioSistemaModel;
 import com.colegioprivado.services.UsuarioSistemaService;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class UsuarioSistemaController {
     @Autowired
     private UsuarioSistemaService service;
@@ -29,11 +32,25 @@ public class UsuarioSistemaController {
         return service.listar();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<UsuarioSistemaModel> buscar(@PathVariable Long id) {
         return service.buscar(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/correo/{correo}")
+    public ResponseEntity<List<UsuarioDTO>> buscarPorCorreo(@PathVariable String correo) {
+        List<UsuarioSistemaModel> usuarios = service.buscarPorCorreo(correo);
+
+        List<UsuarioDTO> dtoList = usuarios.stream().map(usuario -> new UsuarioDTO(
+                usuario.getId_usuario(),
+                usuario.getNombre(),
+                usuario.getCorreo(),
+                usuario.getUsername(),
+                usuario.getPerfil().getId_rol().getNombre_rol())).collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtoList);
     }
 
     @PostMapping
@@ -41,17 +58,26 @@ public class UsuarioSistemaController {
         return service.guardar(u);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UsuarioSistemaModel> actualizar(@PathVariable Long id, @RequestBody UsuarioSistemaModel nuevo) {
+    @PatchMapping("/id/{id}")
+    public ResponseEntity<UsuarioSistemaModel> actualizar(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> camposActualizados) {
         return service.buscar(id)
                 .map(u -> {
-                    u.setUsername(nuevo.getUsername());
-                    u.setPassword(nuevo.getPassword());
-                    u.setNombre(nuevo.getNombre());
-                    u.setCorreo(nuevo.getCorreo());
+                    if (camposActualizados.containsKey("username")) {
+                        u.setUsername((String) camposActualizados.get("username"));
+                    }
+                    if (camposActualizados.containsKey("nombre")) {
+                        u.setNombre((String) camposActualizados.get("nombre"));
+                    }
+                    if (camposActualizados.containsKey("password")) {
+                        u.setPassword((String) camposActualizados.get("password"));
+                    }
+                    if (camposActualizados.containsKey("correo")) {
+                        u.setCorreo((String) camposActualizados.get("correo"));
+                    }
                     return ResponseEntity.ok(service.guardar(u));
-                })
-                .orElse(ResponseEntity.notFound().build());
+                }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

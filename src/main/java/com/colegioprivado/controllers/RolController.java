@@ -19,7 +19,7 @@ import com.colegioprivado.services.RolService;
 
 @RestController
 @RequestMapping("/api/roles")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class RolController {
     @Autowired
     private RolService service;

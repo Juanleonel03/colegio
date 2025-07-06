@@ -10,6 +10,7 @@ public class RegistroDTO {
     private String password;
     private String correo;
     private String rol;
+    
     public String getNombre() {
         return nombre;
     }

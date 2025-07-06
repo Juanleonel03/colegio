@@ -19,7 +19,7 @@ import com.colegioprivado.services.AsistenciaService;
 
 @RestController
 @RequestMapping("/api/asistencias")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class AsistenciaController {
     @Autowired
     private AsistenciaService service;

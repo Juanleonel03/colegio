@@ -29,4 +29,6 @@ public class PerfilUsuarioService {
     public void eliminar(Long id) {
         repository.deleteById(id);
     }
+
+    
 }

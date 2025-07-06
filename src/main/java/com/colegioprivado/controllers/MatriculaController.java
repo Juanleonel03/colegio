@@ -19,7 +19,7 @@ import com.colegioprivado.services.MatriculaService;
 
 @RestController
 @RequestMapping("/api/matriculas")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class MatriculaController {
     @Autowired
     private MatriculaService service;

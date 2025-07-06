@@ -14,7 +14,7 @@ import com.colegioprivado.services.ProfesorService;
 
 @RestController
 @RequestMapping("/api/profesores")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8100", allowCredentials = "true")
 public class ProfesorController {
     @Autowired
     private ProfesorService service;
